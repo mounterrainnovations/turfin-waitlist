@@ -48,13 +48,13 @@ export default function WaitlistForm() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Your mail address"
             required
-            className="w-full h-[52px] rounded-full bg-white/5 border border-white/15 px-6 text-white text-sm placeholder:text-white/30 outline-none focus:border-[#CCFF00]/50 focus:ring-1 focus:ring-[#CCFF00]/25 transition-all duration-300"
+            className="w-full h-[52px] rounded-full bg-white/5 backdrop-blur-md border border-white/15 px-6 text-white text-sm placeholder:text-white/30 outline-none focus:border-[#CCFF00]/50 focus:ring-1 focus:ring-[#CCFF00]/25 transition-all duration-300"
           />
         </div>
         <button
           type="submit"
           disabled={status === "loading"}
-          className="w-full md:w-auto h-[52px] px-8 rounded-full bg-[#CCFF00] text-black font-semibold text-sm tracking-wide hover:bg-[#d4ff33] active:scale-95 transition-all duration-200 whitespace-nowrap disabled:opacity-70 cursor-pointer shadow-[0_0_20px_rgba(204,255,0,0.2)] hover:shadow-[0_0_30px_rgba(204,255,0,0.4)]"
+          className="w-full md:w-auto h-[52px] px-8 rounded-full bg-[#CCFF00]/90 backdrop-blur-md text-black font-semibold text-sm tracking-wide hover:bg-[#d4ff33] active:scale-95 transition-all duration-200 whitespace-nowrap disabled:opacity-70 cursor-pointer shadow-[0_0_20px_rgba(204,255,0,0.2)] hover:shadow-[0_0_30px_rgba(204,255,0,0.4)]"
         >
           {status === "loading" ? (
             <span className="flex items-center gap-2">

@@ -49,11 +49,11 @@ export async function POST(request: NextRequest) {
       await transporter.sendMail({
         from: process.env.ZOHO_MAIL_USER,
         to: process.env.WAITLIST_RECEIVER_EMAIL,
-        subject: "🟢 New TurfIn Waitlist Signup!",
+        subject: "🟢 New TurfInApp Waitlist Signup!",
         html: `
         <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 32px; background: #111; border-radius: 16px; color: #fff;">
           <h2 style="color: #CCFF00; margin-top: 0;">New Waitlist Signup</h2>
-          <p style="color: #ccc;">Someone just joined the TurfIn waitlist:</p>
+          <p style="color: #ccc;">Someone just joined the TurfInApp waitlist:</p>
           <div style="background: #1a1a1a; padding: 16px 24px; border-radius: 12px; border-left: 4px solid #CCFF00; margin: 16px 0;">
             <p style="margin: 0; font-size: 18px; font-weight: 600;">${email}</p>
           </div>
@@ -80,12 +80,12 @@ export async function POST(request: NextRequest) {
       await transporter.sendMail({
         from: process.env.ZOHO_MAIL_USER,
         to: email,
-        subject: "You're on the TurfIn Waitlist! 🎉",
+        subject: "You're on the TurfInApp Waitlist! 🎉",
         html: `
         <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 32px; background: #111; border-radius: 16px; color: #fff;">
-          <h2 style="color: #CCFF00; margin-top: 0;">Welcome to TurfIn!</h2>
+          <h2 style="color: #CCFF00; margin-top: 0;">Welcome to TurfInApp!</h2>
           <p style="color: #ccc; line-height: 1.6;">
-            Thank you for joining the TurfIn waitlist! You'll be among the first to know when we launch.
+            Thank you for joining the TurfInApp waitlist! You'll be among the first to know when we launch.
           </p>
           <p style="color: #ccc; line-height: 1.6;">
             We'll keep you informed about release announcements, insider news, and feature previews.
@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
             </span>
           </div>
           <p style="color: #666; font-size: 12px; text-align: center; margin-bottom: 0;">
-            — The TurfIn Team
+            — The TurfInApp Team
           </p>
         </div>
       `,

@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TurfIn",
-  description: "TurfIn - Your Premium Experience",
+  title: "TurfInApp",
+  description: "TurfInApp - Your Premium Experience",
   icons: {
     icon: "/turfinLogo.svg",
   },

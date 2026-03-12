@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Countdown from "./components/Countdown";
 import WaitlistForm from "./components/WaitlistForm";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const LAUNCH_DATE = new Date("2026-05-05T00:00:00");
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
+    <main className="relative min-h-screen w-full flex flex-col">
       {/* Background Image */}
       <Image
         src="/turfInBG.png"
@@ -16,14 +18,19 @@ export default function Home() {
         priority
       />
 
-      {/* Glassmorphic Container with Dual Borders */}
-      <div className="relative z-10 px-4 py-8 md:p-10 w-full flex items-center justify-center animate-fade-up premium-glow">
-        {/* Outer White Border container - Golden Ratio Target (~880px width) */}
-        <div className="rounded-[48px] border border-white p-2 shadow-2xl w-full max-w-[880px]">
+      {/* Navbar Container */}
+      <div className="relative z-50 w-full flex justify-center pt-6">
+        <Navbar />
+      </div>
+
+      {/* Main Content Area */}
+      <div className="relative z-10 flex-1 w-full flex items-center justify-center px-4 py-12">
+        {/* Glassmorphic Container with Dual Borders */}
+        <div className="rounded-[48px] border border-white p-2 shadow-2xl w-full max-w-[880px] animate-fade-up premium-glow">
           {/* Lime Space (thick border) + Inner Glass (backdrop blur) */}
           <div className="rounded-[40px] border-[6px] md:border-[8px] border-[#CCFF00] bg-black/20 backdrop-blur-3xl overflow-hidden">
             {/* Content Area - Maintain vertical one column design */}
-            <div className="w-full py-10 md:py-14 px-6 md:px-20 flex flex-col items-center text-center gap-6 md:gap-8">
+            <div className="w-full py-8 md:py-14 px-6 md:px-20 flex flex-col items-center text-center gap-6 md:gap-8">
               {/* Launch Badge */}
               <div className="flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/5 border border-white/10">
                 <span className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
@@ -97,6 +104,11 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Footer Container */}
+      <div className="relative z-50 w-full flex justify-center pb-6">
+        <Footer />
       </div>
     </main>
   );

@@ -47,9 +47,9 @@ export default function Home() {
       {/* Main Content Area - Centered with flex-1 */}
       <div className="relative z-10 flex-1 w-full flex items-center justify-center px-4 py-4 md:py-6">
         {/* Glassmorphic Container with Dual Borders */}
-        <div className="rounded-[40px] md:rounded-[48px] border border-white p-1.5 md:p-2 shadow-2xl w-full max-w-[880px] animate-fade-up premium-glow">
+        <div className="rounded-[40px] md:rounded-[48px] border border-white/10 bg-white/5 backdrop-blur-xl p-1.5 md:p-2 shadow-2xl w-full max-w-[880px] animate-fade-up premium-glow">
           {/* Lime Space (thick border) + Inner Glass (backdrop blur) */}
-          <div className="rounded-[32px] md:rounded-[40px] border-[5px] md:border-[8px] border-[#CCFF00] bg-black/20 backdrop-blur-3xl overflow-hidden">
+          <div className="rounded-[32px] md:rounded-[40px] border-[5px] md:border-[8px] border-[#CCFF00] bg-black/40 backdrop-blur-2xl overflow-hidden">
             {/* Content Area - Maintain vertical one column design */}
             <div className="w-full py-5 md:py-8 px-6 md:px-20 flex flex-col items-center text-center gap-3 md:gap-6 text-white">
               {/* Launch Badge */}
@@ -62,7 +62,7 @@ export default function Home() {
 
               {/* Main Heading */}
               <h1 className="text-white text-3xl md:text-5xl font-bold leading-tight tracking-tight">
-                Join the <span className="text-[#CCFF00]">waitlist.</span>
+                Join our <span className="text-[#CCFF00]">waitlist.</span>
               </h1>
 
               {/* Subtitle */}

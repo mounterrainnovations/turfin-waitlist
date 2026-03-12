@@ -43,16 +43,16 @@ export default function Countdown({ targetDate }: { targetDate: Date }) {
   ];
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center justify-center gap-2 md:gap-4 w-full px-2">
       {blocks.map((block) => (
         <div
           key={block.label}
-          className="flex flex-col items-center justify-center w-[90px] h-[90px] rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md"
+          className="flex flex-col items-center justify-center w-[70px] h-[70px] md:w-[100px] md:h-[100px] rounded-xl md:rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md transition-all duration-300 hover:bg-white/10"
         >
-          <span className="text-white text-3xl font-bold tabular-nums leading-none">
+          <span className="text-white text-2xl md:text-4xl font-bold tabular-nums leading-none">
             {String(block.value).padStart(2, "0")}
           </span>
-          <span className="text-white/40 text-[10px] font-semibold tracking-[0.15em] mt-2">
+          <span className="text-white/40 text-[8px] md:text-[10px] font-semibold tracking-[0.15em] mt-1 md:mt-2">
             {block.label}
           </span>
         </div>

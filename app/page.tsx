@@ -17,48 +17,50 @@ export default function Home() {
       />
 
       {/* Glassmorphic Container with Dual Borders */}
-      <div className="relative z-10 p-6">
-        {/* Outer White Border */}
-        <div className="rounded-[48px] border border-white p-2 shadow-2xl">
+      <div className="relative z-10 px-4 py-8 md:p-10 w-full flex items-center justify-center animate-fade-up premium-glow">
+        {/* Outer White Border container - Golden Ratio Target (~880px width) */}
+        <div className="rounded-[48px] border border-white p-2 shadow-2xl w-full max-w-[880px]">
           {/* Lime Space (thick border) + Inner Glass (backdrop blur) */}
-          <div className="rounded-[40px] border-[8px] border-[#CCFF00] bg-black/20 backdrop-blur-3xl">
-            {/* Content Area */}
-            <div className="w-[540px] py-12 px-14 flex flex-col items-center text-center gap-7">
+          <div className="rounded-[40px] border-[6px] md:border-[8px] border-[#CCFF00] bg-black/20 backdrop-blur-3xl overflow-hidden">
+            {/* Content Area - Maintain vertical one column design */}
+            <div className="w-full py-10 md:py-14 px-6 md:px-20 flex flex-col items-center text-center gap-6 md:gap-8">
               {/* Launch Badge */}
               <div className="flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/5 border border-white/10">
                 <span className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
-                <span className="text-[#CCFF00] text-xs font-semibold tracking-[0.15em] uppercase">
+                <span className="text-[#CCFF00] text-[10px] md:text-xs font-semibold tracking-[0.15em] uppercase">
                   Launches: May 5, 2026
                 </span>
               </div>
 
               {/* Main Heading */}
-              <h1 className="text-white text-4xl font-bold leading-tight tracking-tight">
+              <h1 className="text-white text-3xl md:text-5xl font-bold leading-tight tracking-tight">
                 Join the <span className="text-[#CCFF00]">waitlist.</span>
               </h1>
 
               {/* Subtitle */}
-              <p className="text-white/50 text-sm leading-relaxed max-w-sm">
+              <p className="text-white/50 text-xs md:text-sm leading-relaxed max-w-sm md:max-w-md">
                 Obtain early access to our program and remain informed about
                 release announcements, insider news, and feature previews.
               </p>
 
               {/* Countdown Timer */}
-              <Countdown targetDate={LAUNCH_DATE} />
+              <div className="w-full">
+                <Countdown targetDate={LAUNCH_DATE} />
+              </div>
 
               {/* Email Form */}
-              <div className="w-full">
+              <div className="w-full max-w-md">
                 <WaitlistForm />
               </div>
 
               {/* Social Proof */}
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4 mt-2">
                 {/* Avatar Stack */}
                 <div className="flex -space-x-2.5">
                   {["P", "M", "G", "A"].map((char, i) => (
                     <div
                       key={i}
-                      className={`w-8 h-8 rounded-full border-2 border-black/40 flex items-center justify-center overflow-hidden ${
+                      className={`w-8 h-8 md:w-9 md:h-9 rounded-full border-2 border-black/40 flex items-center justify-center overflow-hidden transition-transform hover:scale-110 hover:z-20 ${
                         char === "P"
                           ? "bg-white"
                           : `bg-gradient-to-br ${
@@ -75,19 +77,19 @@ export default function Home() {
                         <Image
                           src="/PLogo.png"
                           alt="P"
-                          width={32}
-                          height={32}
+                          width={36}
+                          height={36}
                           className="object-cover w-full h-full"
                         />
                       ) : (
-                        <span className="text-[10px] font-bold text-white/80">
+                        <span className="text-[10px] md:text-xs font-bold text-white/80">
                           {char}
                         </span>
                       )}
                     </div>
                   ))}
                 </div>
-                <p className="text-white/40 text-xs">
+                <p className="text-white/40 text-[10px] md:text-xs">
                   Join <span className="text-white/70 font-semibold">525+</span>{" "}
                   others on the waitlist
                 </p>

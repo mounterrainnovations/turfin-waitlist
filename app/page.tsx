@@ -11,7 +11,7 @@ export default function Home() {
   const [currentPhase, setCurrentPhase] = useState(2); // Toggle between 1, 2, 3, 4
 
   return (
-    <main className="relative min-h-screen w-full flex flex-col">
+    <main className="relative h-screen min-h-screen w-full overflow-hidden flex flex-col justify-between">
       {/* Background Image */}
       <Image
         src="/turfInBG.png"
@@ -21,7 +21,7 @@ export default function Home() {
         priority
       />
 
-      {/* Hidden Phase Toggle for Demo/Testing (Click logo in navbar for it!) */}
+      {/* Hidden Phase Toggle for Demo/Testing */}
       <div 
         className="fixed bottom-0 right-0 p-4 z-[100] opacity-0 hover:opacity-100 flex gap-2"
         title="Hidden Debug Toggle"
@@ -40,18 +40,18 @@ export default function Home() {
       </div>
 
       {/* Navbar Container */}
-      <div className="relative z-50 w-full flex justify-center pt-6">
+      <div className="relative z-50 w-full flex justify-center pt-2 md:pt-4">
         <Navbar />
       </div>
 
-      {/* Main Content Area */}
-      <div className="relative z-10 flex-1 w-full flex items-center justify-center px-4 py-12">
+      {/* Main Content Area - Centered with flex-1 */}
+      <div className="relative z-10 flex-1 w-full flex items-center justify-center px-4 py-4 md:py-6">
         {/* Glassmorphic Container with Dual Borders */}
-        <div className="rounded-[48px] border border-white p-2 shadow-2xl w-full max-w-[880px] animate-fade-up premium-glow">
+        <div className="rounded-[40px] md:rounded-[48px] border border-white p-1.5 md:p-2 shadow-2xl w-full max-w-[880px] animate-fade-up premium-glow">
           {/* Lime Space (thick border) + Inner Glass (backdrop blur) */}
-          <div className="rounded-[40px] border-[6px] md:border-[8px] border-[#CCFF00] bg-black/20 backdrop-blur-3xl overflow-hidden">
+          <div className="rounded-[32px] md:rounded-[40px] border-[5px] md:border-[8px] border-[#CCFF00] bg-black/20 backdrop-blur-3xl overflow-hidden">
             {/* Content Area - Maintain vertical one column design */}
-            <div className="w-full py-8 md:py-14 px-6 md:px-20 flex flex-col items-center text-center gap-6 md:gap-8 text-white">
+            <div className="w-full py-5 md:py-8 px-6 md:px-20 flex flex-col items-center text-center gap-3 md:gap-6 text-white">
               {/* Launch Badge */}
               <div className="flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/5 border border-white/10">
                 <span className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
@@ -72,7 +72,7 @@ export default function Home() {
               </p>
 
               {/* Progress Steps */}
-              <div className="w-full max-w-3xl py-4 overflow-visible">
+              <div className="w-full max-w-3xl py-2 md:py-4 overflow-visible">
                 <ProgressSteps currentPhase={currentPhase} />
               </div>
 
@@ -82,10 +82,9 @@ export default function Home() {
               </div>
 
               {/* Social Proof */}
-              <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4 mt-2">
+              <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4 mt-1">
                 {/* Avatar Stack */}
                 <div className="flex -space-x-2.5">
-                  {/* ... Existing avatar stack loop ... */}
                   {["P", "M", "G", "A"].map((char, i) => (
                     <div
                       key={i}
@@ -138,7 +137,7 @@ export default function Home() {
       </div>
 
       {/* Footer Container */}
-      <div className="relative z-50 w-full flex justify-center pb-6">
+      <div className="relative z-50 w-full flex justify-center pb-2 md:pb-4">
         <Footer />
       </div>
     </main>

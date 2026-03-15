@@ -15,7 +15,7 @@ export default function ProgressSteps({ currentPhase }: ProgressStepsProps) {
   ];
 
   return (
-    <div className="w-full py-8 flex flex-col items-center">
+    <div className="w-full py-[1vh] flex flex-col items-center">
       <div className="relative w-full max-w-2xl px-6 md:px-10">
         {/* Progress Bar Background */}
         <div className="absolute top-[20px] md:top-[28px] left-[12.5%] right-[12.5%] h-[2px] bg-white/5 z-0" />

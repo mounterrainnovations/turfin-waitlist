@@ -1,17 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+
 import WaitlistForm from "./components/WaitlistForm";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProgressSteps from "./components/ProgressSteps";
 
 export default function Home() {
-  const [currentPhase, setCurrentPhase] = useState(2); // Toggle between 1, 2, 3, 4
+  // Use environment variable for the current phase, defaulting to 1
+  const currentPhase = Number(process.env.NEXT_PUBLIC_PROGRESS_PHASE) || 1;
+
 
   return (
-    <main className="relative h-screen min-h-screen w-full overflow-hidden flex flex-col justify-between">
+    <main className="relative h-[100dvh] w-full flex flex-col justify-between overflow-hidden">
       {/* Background Image */}
       <Image
         src="/turfInBG.png"
@@ -20,24 +22,6 @@ export default function Home() {
         className="object-cover"
         priority
       />
-
-      {/* Hidden Phase Toggle for Demo/Testing */}
-      <div
-        className="fixed bottom-0 right-0 p-4 z-[100] opacity-0 hover:opacity-100 flex gap-2"
-        title="Hidden Debug Toggle"
-      >
-        {[1, 2, 3, 4].map((p) => (
-          <button
-            key={p}
-            onClick={() => setCurrentPhase(p)}
-            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs border border-white/20 hover:bg-white/10
-              ${currentPhase === p ? "bg-[#CCFF00] text-black border-[#CCFF00]" : "text-white"}
-            `}
-          >
-            {p}
-          </button>
-        ))}
-      </div>
 
       {/* Navbar Container */}
       <div className="relative z-50 w-full flex justify-center pt-2 md:pt-4">
@@ -53,7 +37,7 @@ export default function Home() {
             {/* Content Area - Maintain vertical one column design */}
             <div className="w-full py-5 md:py-8 px-6 md:px-20 flex flex-col items-center text-center gap-3 md:gap-6 text-white">
               {/* Launch Badge */}
-              <div className="flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10">
+              <div className="flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 shrink-0">
                 <span className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
                 <span className="text-[#CCFF00] text-[10px] md:text-xs font-semibold tracking-[0.15em] uppercase">
                   {currentPhase === 4 ? "Live Now" : "Release Date: TBA"}
@@ -61,12 +45,12 @@ export default function Home() {
               </div>
 
               {/* Main Heading */}
-              <h1 className="text-white text-3xl md:text-5xl font-bold leading-tight tracking-tight">
+              <h1 className="text-white text-3xl md:text-5xl font-bold leading-tight tracking-tight shrink-0">
                 Join our <span className="text-[#CCFF00]">waitlist.</span>
               </h1>
 
               {/* Subtitle */}
-              <p className="text-white/50 text-xs md:text-sm leading-relaxed max-w-sm md:max-w-md">
+              <p className="text-white/50 text-xs md:text-sm leading-relaxed max-w-sm md:max-w-md shrink-0">
                 Obtain early access to our program and remain informed about
                 release announcements, insider news, and feature previews.
               </p>
@@ -82,7 +66,7 @@ export default function Home() {
               </div>
 
               {/* Social Proof */}
-              <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4 mt-1">
+              <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4 mt-1 shrink-0">
                 {/* Avatar Stack */}
                 <div className="flex -space-x-2.5">
                   {["P", "M", "G", "A"].map((char, i) => (

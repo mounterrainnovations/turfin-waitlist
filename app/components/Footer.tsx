@@ -16,16 +16,16 @@ export default function Footer() {
 
   return (
     <footer className="pt-16 pb-10 border-t border-white/5">
-      {/* Top row: logo left, links right */}
-      <div className="flex items-center justify-between mb-10">
-        <Link href="/" className="flex items-center gap-2.5">
+      {/* Top row: logo left, links right — stacks on mobile */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-10">
+        <Link href="/" className="flex items-center gap-2.5 flex-none">
           <Image src="/turfinLogo.svg" alt="TurfInApp" width={36} height={36} className="object-contain" />
           <span className="text-white font-extrabold tracking-tighter text-xl leading-none">
             TurfIn<span className="text-[#CCFF00]">App.</span>
           </span>
         </Link>
 
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
           {FOOTER_LINKS.map(({ label, href, external }) => (
             <Link
               key={label}

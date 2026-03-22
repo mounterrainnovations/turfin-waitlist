@@ -4,9 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 const NAV_LINKS = [
-  { label: "Features", href: "/#features",  badge: null },
-  { label: "About",    href: "/#about",     badge: null },
-  { label: "Careers",  href: "/#careers",   badge: "4"  },
+  { label: "Features", href: "/#features", badge: null },
+  { label: "About",    href: "/#about",    badge: null },
 ];
 
 /* Small icon squares that appear before nav links — mirrors tuyo's colored indicators */

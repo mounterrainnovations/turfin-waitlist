@@ -22,7 +22,8 @@
       "Bash(find /Users/pranavnair/Foxtrot/Code/Personal/Mounterra/Hopeworks/turfin/turfin-waitlist -name *.json -path *claude*)",
       "Bash(find ~/.claude -name *.json)",
       "mcp__playwright__browser_evaluate",
-      "mcp__playwright__browser_press_key"
+      "mcp__playwright__browser_press_key",
+      "mcp__playwright__browser_resize"
     ]
   },
   "enabledPlugins": {

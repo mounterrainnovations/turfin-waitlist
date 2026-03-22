@@ -301,8 +301,8 @@ export default function Home() {
           </h2>
         </div>
 
-        {/* Horizontal scroll */}
-        <div className="flex gap-4 overflow-x-auto hide-scrollbar px-5 md:px-10 pb-4">
+        {/* Horizontal scroll — data-lenis-prevent lets Lenis hand this off to native scroll */}
+        <div data-lenis-prevent className="flex gap-4 overflow-x-auto hide-scrollbar px-5 md:px-10 pb-4">
           {FEATURES.map((f) => (
             <div
               key={f.id}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "./components/Navbar";
@@ -174,17 +174,27 @@ function AvatarStack({ size = "sm" }: { size?: "sm" | "lg" }) {
 function TestimonialCard({ t }: { t: (typeof TESTIMONIALS)[0] }) {
   return (
     <div className="flex-none w-[300px] bg-[#0d0d0d] border border-white/8 rounded-2xl p-5">
-      <div className="flex items-center gap-2.5 mb-3">
-        <div className="w-8 h-8 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-xs text-white/50 flex-none font-semibold">
+      {/* Stars */}
+      <div className="flex items-center gap-0.5 mb-3">
+        {[...Array(5)].map((_, i) => (
+          <svg key={i} width="12" height="12" viewBox="0 0 12 12" fill="#CCFF00">
+            <path d="M6 1l1.35 2.73L10.5 4.2l-2.25 2.19.53 3.11L6 8.02l-2.78 1.48.53-3.11L1.5 4.2l3.15-.47L6 1z" />
+          </svg>
+        ))}
+      </div>
+      <p className="text-white/70 text-sm leading-relaxed mb-3">{t.text}</p>
+      <div className="flex items-center gap-2.5 pt-3 border-t border-white/6">
+        <div className="w-7 h-7 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-[10px] text-white/50 flex-none font-semibold">
           {t.name[0]}
         </div>
-        <div>
-          <p className="text-white text-xs font-semibold leading-none">{t.name}</p>
+        <div className="flex-1">
+          <p className="text-white/70 text-xs font-semibold leading-none">{t.name}</p>
           <p className="text-white/25 text-[10px] mt-0.5">{t.handle}</p>
         </div>
-        <span className="ml-auto text-[#CCFF00] text-[10px]">✓</span>
+        <span className="text-[#CCFF00]/60 text-[9px] font-semibold tracking-wide border border-[#CCFF00]/20 rounded-full px-2 py-0.5">
+          Verified
+        </span>
       </div>
-      <p className="text-white/60 text-sm leading-relaxed">{t.text}</p>
     </div>
   );
 }
@@ -194,6 +204,22 @@ function TestimonialCard({ t }: { t: (typeof TESTIMONIALS)[0] }) {
 export default function Home() {
   const currentPhase = Number(process.env.NEXT_PUBLIC_PROGRESS_PHASE) || 1;
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  // Wire up scroll reveal for all [data-reveal] and [data-reveal-stagger] elements
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>("[data-reveal], [data-reveal-stagger]");
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("revealed");
+          io.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.1, rootMargin: "0px 0px -48px 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
 
   return (
     <main className="bg-black text-white overflow-x-hidden">
@@ -276,13 +302,28 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Social proof */}
-          <div className="flex items-center gap-3 mt-6">
-            <AvatarStack size="sm" />
-            <p className="text-white/40 text-xs">
-              Join <span className="text-white/70 font-semibold">525+</span> others on the waitlist
-            </p>
+          {/* Stats strip — 2×2 grid on mobile, single row on md+ */}
+          <div className="grid grid-cols-2 lg:flex lg:items-center mt-7 pt-6 border-t border-white/8 gap-y-3">
+            {[
+              { val: "525+", label: "on waitlist" },
+              { val: "6",    label: "sports" },
+              { val: "20+",  label: "venue partners" },
+              { val: "₹0",   label: "booking fees" },
+            ].map(({ val, label }, i) => (
+              <div key={label} className={`flex items-baseline gap-1.5 ${i > 0 ? "lg:pl-5 lg:border-l lg:border-white/8" : ""}`}>
+                <span className="text-white font-display font-black text-xl tracking-tight">{val}</span>
+                <span className="text-white/30 text-xs">{label}</span>
+              </div>
+            ))}
           </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 animate-bounce opacity-30 z-10 pointer-events-none">
+          <span className="text-white/50 text-[9px] tracking-[0.2em] uppercase font-semibold">Scroll</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-white/50">
+            <path d="M3 6l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </div>
       </section>
 
@@ -292,13 +333,22 @@ export default function Home() {
       <section id="features" className="py-20 md:py-28">
 
         {/* Section header */}
-        <div className="px-5 md:px-10 mb-10">
+        <div data-reveal className="px-5 md:px-10 mb-10">
           <p className="text-white/25 text-[11px] font-semibold tracking-[0.2em] uppercase mb-3">
             The Platform
           </p>
-          <h2 className="font-display font-black text-[40px] md:text-[52px] leading-[0.9] tracking-tight text-white">
-            Everything you need<br className="hidden sm:block" /> to book and play.
-          </h2>
+          <div className="flex items-end justify-between gap-4 flex-wrap">
+            <h2 className="font-display font-black text-[40px] md:text-[52px] leading-[0.9] tracking-tight text-white">
+              Everything you need<br className="hidden sm:block" /> to book and play.
+            </h2>
+            {/* Swipe hint — mobile only */}
+            <p className="md:hidden text-white/20 text-xs flex items-center gap-1.5 pb-1">
+              Swipe
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </p>
+          </div>
         </div>
 
         {/* Horizontal scroll — data-lenis-prevent lets Lenis hand this off to native scroll */}
@@ -323,15 +373,104 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════
+          HOW IT WORKS — 3-step explainer
+      ══════════════════════════════════════════════════════════════════ */}
+      <section className="py-20 md:py-28 px-5 md:px-10">
+        <div data-reveal className="mb-12 md:mb-16">
+          <p className="text-white/25 text-[11px] font-semibold tracking-[0.2em] uppercase mb-3">
+            How it works
+          </p>
+          <h2 className="font-display font-black text-[40px] md:text-[52px] leading-[0.9] tracking-tight text-white">
+            Three taps.<br className="hidden sm:block" /> Zero hassle.
+          </h2>
+        </div>
+
+        <div data-reveal-stagger className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+          {[
+            {
+              step: "01",
+              headline: "Browse & filter.",
+              body: "Search venues near you. See live slot availability across 20+ sports facilities — updated in real time.",
+              visual: (
+                <div className="mt-6 rounded-2xl bg-white/3 border border-white/8 p-4 flex flex-col gap-2">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-5 h-5 rounded-md bg-[#CCFF00]/15 flex items-center justify-center text-[10px]">📍</div>
+                    <span className="text-white/30 text-xs">Koramangala, Bangalore</span>
+                  </div>
+                  {["Greenfield Arena · 0.8 km", "PlayZone Turf · 1.4 km", "AceField FC · 2.1 km"].map((v, i) => (
+                    <div key={v} className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs ${i === 0 ? "bg-[#CCFF00]/10 border border-[#CCFF00]/25" : "bg-white/3 border border-white/6"}`}>
+                      <span className={i === 0 ? "text-[#CCFF00]/80" : "text-white/30"}>{v}</span>
+                      <span className={`font-semibold ${i === 0 ? "text-[#CCFF00]" : "text-white/20"}`}>{i === 0 ? "5 slots" : "Full"}</span>
+                    </div>
+                  ))}
+                </div>
+              ),
+            },
+            {
+              step: "02",
+              headline: "Book & pay.",
+              body: "Pick your slot, pay instantly with UPI, card, or TurfCoins. Instant confirmation — no deposits, no calls.",
+              visual: (
+                <div className="mt-6 rounded-2xl bg-white/3 border border-white/8 p-4 flex flex-col items-center gap-3">
+                  <div className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-[#CCFF00]/10 border border-[#CCFF00]/25">
+                    <span className="text-[#CCFF00]/80 text-xs font-medium">Saturday · 8 AM – 9 AM</span>
+                    <span className="text-[#CCFF00] text-xs font-bold">₹450</span>
+                  </div>
+                  <div className="w-full grid grid-cols-3 gap-2">
+                    {["UPI", "Card", "TurfCoins"].map((m) => (
+                      <div key={m} className="flex items-center justify-center py-2 rounded-lg bg-white/5 border border-white/8 text-white/30 text-[10px] font-medium">{m}</div>
+                    ))}
+                  </div>
+                  <div className="w-full px-4 py-2.5 rounded-full bg-[#CCFF00] text-black text-xs font-bold text-center">
+                    Confirm Booking →
+                  </div>
+                </div>
+              ),
+            },
+            {
+              step: "03",
+              headline: "Show up & play.",
+              body: "Walk in. Your slot is held. No paperwork, no cash at the door. TurfIn handles the rest — you just play.",
+              visual: (
+                <div className="mt-6 rounded-2xl bg-white/3 border border-white/8 p-4 flex flex-col items-center gap-3">
+                  <div className="w-14 h-14 rounded-full bg-[#CCFF00]/15 border border-[#CCFF00]/30 flex items-center justify-center text-2xl">✓</div>
+                  <div className="text-center">
+                    <p className="text-[#CCFF00] text-sm font-bold">Booking Confirmed</p>
+                    <p className="text-white/30 text-xs mt-0.5">Greenfield Arena · Gate B</p>
+                  </div>
+                  <div className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-white/3 border border-white/6">
+                    <span className="text-white/30 text-xs">TurfCoins earned</span>
+                    <span className="text-[#CCFF00] text-xs font-bold">+60 TC</span>
+                  </div>
+                </div>
+              ),
+            },
+          ].map(({ step, headline, body, visual }) => (
+            <div key={step} className="bg-[#0d0d0d] border border-white/8 rounded-2xl p-6 flex flex-col">
+              <span className="text-[#CCFF00]/30 font-display font-black text-4xl leading-none tracking-tight mb-4">{step}</span>
+              <p className="text-white font-display font-bold text-xl leading-tight mb-1.5">{headline}</p>
+              <p className="text-white/35 text-xs leading-relaxed">{body}</p>
+              {visual}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════
           TESTIMONIALS — name/avatar at top, infinite double marquee
       ══════════════════════════════════════════════════════════════════ */}
       <section className="py-20 md:py-28 overflow-hidden">
-        <p className="text-center text-white/25 text-xs font-semibold tracking-[0.2em] uppercase mb-10">
-          Trusted by thousands
-        </p>
+        <div data-reveal className="text-center mb-10">
+          <p className="text-white/25 text-xs font-semibold tracking-[0.2em] uppercase mb-2">
+            Real players. Real matches.
+          </p>
+          <h2 className="font-display font-black text-[32px] md:text-[44px] leading-[0.9] tracking-tight text-white">
+            Loved by the community.
+          </h2>
+        </div>
 
         {/* Row 1 — left scroll */}
-        <div className="marquee-track overflow-hidden mb-3">
+        <div className="marquee-track marquee-fade overflow-hidden mb-3">
           <div className="animate-marquee flex gap-3" style={{ width: "max-content" }}>
             {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
               <TestimonialCard key={i} t={t} />
@@ -340,7 +479,7 @@ export default function Home() {
         </div>
 
         {/* Row 2 — right scroll */}
-        <div className="marquee-track overflow-hidden">
+        <div className="marquee-track marquee-fade overflow-hidden">
           <div
             className="animate-marquee-slow flex gap-3"
             style={{ width: "max-content", animationDirection: "reverse" }}
@@ -355,11 +494,14 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════════════════
           ABOUT — two large callout cards side by side
       ══════════════════════════════════════════════════════════════════ */}
-      <section id="about" className="px-5 md:px-10 pb-16 md:pb-20">
-        <div className="mb-8">
+      <section id="about" className="px-5 md:px-10 py-20 md:py-28">
+        <div data-reveal className="mb-10">
           <p className="text-white/25 text-[11px] font-semibold tracking-[0.2em] uppercase mb-3">
             Why TurfIn
           </p>
+          <h2 className="font-display font-black text-[40px] md:text-[52px] leading-[0.9] tracking-tight text-white">
+            Built for players,<br className="hidden sm:block" /> not paperwork.
+          </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -367,12 +509,13 @@ export default function Home() {
           {/* Callout 1 — booking control */}
           <Link
             href="/#waitlist"
-            className="group bg-[#0d0d0d] border border-white/8 rounded-3xl p-8 md:p-10 flex flex-col min-h-[500px] overflow-hidden relative hover:border-white/15 transition-colors duration-300"
+            data-reveal
+            className="group bg-[#0d0d0d] border border-white/8 rounded-3xl p-8 md:p-10 flex flex-col min-h-125 overflow-hidden relative hover:border-white/15 transition-colors duration-300"
           >
-            <p className="text-white font-display font-black text-3xl md:text-4xl leading-[1.0] tracking-tight max-w-xs mb-3">
+            <p className="text-white font-display font-black text-3xl md:text-4xl leading-none tracking-tight max-w-xs mb-3">
               Your turf.<br />Your rules.
             </p>
-            <p className="text-white/35 text-sm leading-relaxed max-w-[260px]">
+            <p className="text-white/35 text-sm leading-relaxed max-w-65">
               Real-time slot visibility, instant booking confirmation,
               and zero friction — TurfIn puts you in control of your game.
             </p>
@@ -412,17 +555,18 @@ export default function Home() {
           {/* Callout 2 — TurfCoins rewards */}
           <Link
             href="/#waitlist"
-            className="group rounded-3xl p-8 md:p-10 flex flex-col min-h-[500px] overflow-hidden relative hover:border-[#CCFF00]/25 transition-colors duration-300"
+            data-reveal
+            className="group rounded-3xl p-8 md:p-10 flex flex-col min-h-125 overflow-hidden relative hover:border-[#CCFF00]/25 transition-colors duration-300"
             style={{
               background: "linear-gradient(145deg, #0a1900 0%, #0d2200 60%, #050a00 100%)",
               border: "1px solid rgba(204,255,0,0.12)",
             }}
           >
-            <p className="text-white font-display font-black text-3xl md:text-4xl leading-[1.0] tracking-tight max-w-xs mb-3">
+            <p className="text-white font-display font-black text-3xl md:text-4xl leading-none tracking-tight max-w-xs mb-3">
               Play TurfIn.<br />
               <span className="text-[#CCFF00]">Own the game.</span>
             </p>
-            <p className="text-white/35 text-sm leading-relaxed max-w-[260px]">
+            <p className="text-white/35 text-sm leading-relaxed max-w-65">
               Every booking earns you TurfCoins. You&apos;re not just a user —
               early members get lifetime perks and priority access.
             </p>
@@ -451,19 +595,32 @@ export default function Home() {
           CTA — centered, big display headline + lime button
       ══════════════════════════════════════════════════════════════════ */}
       <section className="py-28 md:py-36 text-center px-5">
-        <h2 className="font-display font-black text-[52px] xs:text-[68px] md:text-[96px] xl:text-[116px] leading-[0.88] tracking-tight text-white mb-6">
-          TurfIn can<br />book any field.
-        </h2>
-        <p className="text-white/40 text-base md:text-lg max-w-md mx-auto mb-10 leading-relaxed">
-          With TurfIn, you can book your favourite ground while earning TurfCoins.
-          Everywhere there&apos;s turf, TurfIn is.
-        </p>
-        <Link
-          href="/#waitlist"
-          className="inline-flex items-center px-8 py-3.5 rounded-full bg-[#CCFF00] text-black text-sm font-bold hover:bg-white transition-colors duration-200"
-        >
-          Get early access
-        </Link>
+        <div data-reveal>
+          <h2 className="font-display font-black text-[52px] xs:text-[68px] md:text-[96px] xl:text-[116px] leading-[0.88] tracking-tight text-white mb-6">
+            Your field.<br />One tap away.
+          </h2>
+          <p className="text-white/40 text-base md:text-lg max-w-md mx-auto mb-8 leading-relaxed">
+            Stop calling venue managers. Stop paying cash deposits.
+            TurfIn books your favourite ground in seconds — and rewards you for every match.
+          </p>
+          {/* Stat chips */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
+            {["20+ venues", "6 sports", "₹0 booking fees", "Instant confirmation"].map((chip) => (
+              <span key={chip} className="px-3 py-1.5 rounded-full bg-white/5 border border-white/8 text-white/40 text-xs font-medium">
+                {chip}
+              </span>
+            ))}
+          </div>
+          <Link
+            href="/#waitlist"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#CCFF00] text-black text-sm font-bold hover:bg-white hover:scale-105 active:scale-95 transition-all duration-200 shadow-[0_0_30px_rgba(204,255,0,0.3)]"
+          >
+            Get early access
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
+        </div>
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════
@@ -509,8 +666,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Right — FAQ accordion (shown first on mobile) */}
-        <div className="flex flex-col gap-2 order-1 md:order-2 md:pt-10">
+        {/* Right — FAQ accordion (shown first on mobile, closing </div> below is for the FAQ column) */}
+        <div data-reveal className="flex flex-col gap-2 order-1 md:order-2 md:pt-10">
+          <p className="text-white/25 text-[11px] font-semibold tracking-[0.2em] uppercase mb-4">
+            FAQ
+          </p>
           {FAQS.map((faq, i) => (
             <div key={i} className="bg-[#0d0d0d] border border-white/8 rounded-xl overflow-hidden">
               <button
@@ -551,9 +711,9 @@ export default function Home() {
         />
 
         {/* Outer glassmorphic wrapper */}
-        <div className="relative w-full max-w-[880px] rounded-[40px] md:rounded-[48px] border border-white/10 bg-white/5 backdrop-blur-xl p-1.5 md:p-2 shadow-2xl premium-glow animate-fade-up">
+        <div className="relative w-full max-w-220 rounded-[40px] md:rounded-[48px] border border-white/10 bg-white/5 backdrop-blur-xl p-1.5 md:p-2 shadow-2xl premium-glow animate-fade-up">
           {/* Inner lime-border card */}
-          <div className="rounded-[32px] md:rounded-[40px] border-[5px] md:border-[8px] border-[#CCFF00] bg-black/40 backdrop-blur-2xl overflow-hidden animate-glow-breathe-subtle">
+          <div className="rounded-4xl md:rounded-[40px] border-[5px] md:border-8 border-[#CCFF00] bg-black/40 backdrop-blur-2xl overflow-hidden animate-glow-breathe-subtle">
             <div className="w-full py-8 xs:py-10 md:py-12 px-5 xs:px-6 md:px-20 flex flex-col items-center text-center gap-4 md:gap-6">
 
               {/* Status badge */}
@@ -566,14 +726,31 @@ export default function Home() {
 
               {/* Headline */}
               <h2 className="text-white text-3xl md:text-5xl font-bold leading-tight tracking-tight">
-                Join our <span className="text-[#CCFF00]">waitlist.</span>
+                Be first on the<br /><span className="text-[#CCFF00]">field.</span>
               </h2>
 
               {/* Subtitle */}
               <p className="text-white/50 text-xs md:text-sm leading-relaxed max-w-sm md:max-w-md">
-                Obtain early access to our program and remain informed about
-                release announcements, insider news, and feature previews.
+                Join the waitlist and lock in your early-bird access before we go live.
+                Limited spots. Exclusive perks. No spam.
               </p>
+
+              {/* Perks */}
+              <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+                {[
+                  "Priority access at launch",
+                  "Bonus TurfCoins stack",
+                  "Exclusive early-bird pricing",
+                ].map((perk) => (
+                  <span key={perk} className="flex items-center gap-1.5 text-white/40 text-xs">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <circle cx="6" cy="6" r="5" stroke="#CCFF00" strokeOpacity="0.4" strokeWidth="1" />
+                      <path d="M3.5 6l1.8 1.8 3-3.6" stroke="#CCFF00" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    {perk}
+                  </span>
+                ))}
+              </div>
 
               {/* Progress steps */}
               <div className="w-full max-w-3xl py-2 md:py-4 overflow-visible">
@@ -590,7 +767,7 @@ export default function Home() {
                 <AvatarStack size="lg" />
                 <p className="text-white/40 text-[10px] md:text-xs">
                   Join <span className="text-white/70 font-semibold">525+</span>{" "}
-                  others on the waitlist
+                  others already on the waitlist
                 </p>
               </div>
 

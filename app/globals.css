@@ -166,12 +166,63 @@ body {
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Section fade-in on scroll (JS-assisted) */
+/* Section scroll reveal — CSS transitions driven by IntersectionObserver */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered children inside a reveal container */
+[data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-reveal-stagger].revealed > *:nth-child(1) { transition-delay: 0ms;   opacity: 1; transform: translateY(0); }
+[data-reveal-stagger].revealed > *:nth-child(2) { transition-delay: 80ms;  opacity: 1; transform: translateY(0); }
+[data-reveal-stagger].revealed > *:nth-child(3) { transition-delay: 160ms; opacity: 1; transform: translateY(0); }
+[data-reveal-stagger].revealed > *:nth-child(4) { transition-delay: 240ms; opacity: 1; transform: translateY(0); }
+[data-reveal-stagger].revealed > *:nth-child(5) { transition-delay: 320ms; opacity: 1; transform: translateY(0); }
+
+/* Marquee edge fade — applied to the outer overflow-hidden wrapper */
+.marquee-fade {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+}
+
+/* Respect user's motion preference — disable all decorative animations */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .animate-marquee,
+  .animate-marquee-slow,
+  .animate-fade-up,
+  .animate-fade-down,
+  .animate-fade-in,
+  .animate-glow-breathe-subtle,
+  .animate-glow-breathe,
+  .animate-bounce,
+  .animate-pulse {
+    animation: none !important;
+  }
+}
+
+/* Legacy keyframe kept for .animate-fade-up on waitlist card */
 @keyframes sectionReveal {
   from { opacity: 0; transform: translateY(32px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 .section-reveal {
   animation: sectionReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }

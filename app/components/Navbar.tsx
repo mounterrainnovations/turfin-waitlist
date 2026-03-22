@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -16,8 +17,16 @@ const NavIcon = ({ children }: { children: React.ReactNode }) => (
 );
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 80);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 md:px-10 py-4 animate-fade-up">
+    <nav className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 md:px-10 py-4 animate-fade-up border-b backdrop-blur-xl transition-colors duration-500 ease-in-out ${scrolled ? "bg-black/75 border-white/8" : "bg-transparent border-transparent"}`}>
       {/* Logo */}
       <Link href="/" className="flex items-center gap-2.5 group flex-none">
         <Image

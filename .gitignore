@@ -22,7 +22,14 @@
 
 # misc
 .DS_Store
+**/.DS_Store
 *.pem
+
+# claude code (local permissions/settings)
+.claude/
+
+# playwright mcp (dev session logs)
+.playwright-mcp/
 
 # debug
 npm-debug.log*
@@ -30,8 +37,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-# .env*
+# env files
+.env*
+!.env.example
 
 # vercel
 .vercel

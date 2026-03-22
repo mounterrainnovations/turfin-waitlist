@@ -1,6 +1,30 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+/* Display font utility */
+.font-display {
+  font-family: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+}
+
+/*
+ * BREAKPOINT SYSTEM
+ * ─────────────────────────────────────────────────────
+ * Default (< 475px) — iPhone SE, iPhone 12/13/14/15 Pro, Pixel: compact mobile
+ * xs     (≥ 475px) — mid-size phones, phablets
+ * sm     (≥ 640px) — large phones, small tablets
+ * md     (≥ 768px) — tablets, small laptops
+ * lg     (≥ 1024px) — laptops, desktops
+ * xl     (≥ 1280px) — large desktops
+ * 2xl    (≥ 1536px) — very large displays
+ *
+ * Rule: always style for default (< 475px) first, then layer up.
+ * ─────────────────────────────────────────────────────
+ */
+
+@theme {
+  --breakpoint-xs: 475px;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -83,4 +107,71 @@ body {
   );
   z-index: -1;
   pointer-events: none;
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.animate-fade-down {
+  animation: fadeDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes glowBreatheSubtle {
+  0%, 100% { box-shadow: 0 0 15px rgba(204, 255, 0, 0.4); }
+  50% { box-shadow: 0 0 35px rgba(204, 255, 0, 0.6); }
+}
+
+.animate-glow-breathe-subtle {
+  animation: glowBreatheSubtle 3s ease-in-out infinite;
+}
+
+@keyframes glowBreathe {
+  0%, 100% { opacity: 0.3; transform: scale(1.2); }
+  50% { opacity: 0.6; transform: scale(1.6); }
+}
+
+.animate-glow-breathe {
+  animation: glowBreathe 3s ease-in-out infinite;
+}
+
+/* Testimonial / feature marquee */
+@keyframes marqueeLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marqueeLeft 32s linear infinite;
+}
+
+.animate-marquee-slow {
+  animation: marqueeLeft 48s linear infinite;
+}
+
+/* Pause marquee on hover */
+.marquee-track:hover .animate-marquee,
+.marquee-track:hover .animate-marquee-slow {
+  animation-play-state: paused;
+}
+
+/* Feature card scroll hide scrollbar */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Section fade-in on scroll (JS-assisted) */
+@keyframes sectionReveal {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.section-reveal {
+  animation: sectionReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }

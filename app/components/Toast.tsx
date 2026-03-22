@@ -32,39 +32,23 @@ export default function Toast({ message, type = "info", onClose, duration = 4000
   };
 
   return (
-    <div 
-      className={`fixed top-10 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 px-6 py-3 rounded-full border border-white/10 bg-black/40 backdrop-blur-2xl shadow-2xl transition-all duration-300 ${
+    <div
+      className={`fixed top-4 sm:top-10 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 px-5 py-3 rounded-full border border-white/10 bg-black/40 backdrop-blur-2xl shadow-2xl transition-all duration-300 max-w-[min(22rem,calc(100vw-2rem))] ${
         isExiting ? "opacity-0 -translate-y-4" : "opacity-100 translate-y-0 animate-fade-down"
       }`}
     >
       <div className="flex-shrink-0">
         {icons[type]}
       </div>
-      <p className="text-white text-sm font-medium whitespace-nowrap">
+      <p className="text-white text-sm font-medium">
         {message}
       </p>
-      <button 
+      <button
         onClick={handleClose}
-        className="ml-2 p-1 rounded-full hover:bg-white/10 transition-colors text-white/40 hover:text-white"
+        className="ml-2 flex-shrink-0 p-1 rounded-full hover:bg-white/10 transition-colors text-white/40 hover:text-white"
       >
         <X size={14} weight="bold" />
       </button>
-
-      <style jsx>{`
-        @keyframes fade-down {
-          from {
-            opacity: 0;
-            transform: translate(-50%, -20px);
-          }
-          to {
-            opacity: 1;
-            transform: translate(-50%, 0);
-          }
-        }
-        .animate-fade-down {
-          animation: fade-down 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-      `}</style>
     </div>
   );
 }
